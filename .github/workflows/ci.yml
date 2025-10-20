@@ -1,0 +1,38 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python (example)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: |
+          echo "Installing dependencies..."
+          # Example: pip install -r requirements.txt
+          echo "Dependencies installed."
+
+      - name: Run Build/Test
+        run: |
+          echo "Running tests..."
+          # Example: pytest tests/
+          echo "Build and test successful!"
+
+      - name: Notify Jenkins
+        if: success()
+        run: |
+          echo "Triggering Jenkins Pipeline..."
+          curl -X POST "$JENKINS_URL/job/$JENKINS_JOB/build?token=$JENKINS_TOKEN"
