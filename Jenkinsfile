@@ -5,7 +5,7 @@ pipeline {
         // Jenkins API token
         JENKINS_API_TOKEN = credentials('JENKINS_API_TOKEN')
         // Jenkins username + password
-        JENKINS_USER = credentials('JenkinsusingDocker')
+        JENKINS_USER = credentials('JenkinsUsingDocker')
         // Optional GitHub token if your repo is private
         // GITHUB_TOKEN = credentials('JenkinsusingDock')
     }
@@ -45,6 +45,7 @@ pipeline {
         }
     }
 }
+
 
 
 
