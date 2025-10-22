@@ -2,8 +2,12 @@ pipeline {
     agent any
 
     environment {
-        JENKINS_API_TOKEN = credentials('11e0d02121894335dfd3c4795db5e25777')
-        JENKINS_USER = credentials('JenkinsUsingDocker')
+        // Jenkins API token
+        JENKINS_API_TOKEN = credentials('JENKINS_API_TOKEN')
+        // Jenkins username + password
+        JENKINS_USER = credentials('JENKINS_USER')
+        // Optional GitHub token if your repo is private
+        // GITHUB_TOKEN = credentials('JenkinsusingDock')
     }
 
     stages {
