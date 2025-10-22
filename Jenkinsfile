@@ -40,10 +40,10 @@ pipeline {
             steps {
                 echo "Using Jenkins username/password credential..."
                 withCredentials([usernamePassword(
-                    credentialsId: 'ISENKINS_USER',   // correct ID
-                    usernameVariable: 'USER',
-                    passwordVariable: 'PASS')]) {
-                        echo "Jenkins username is: $USER"
+                    credentialsId: 'JENKINS_USER',   // correct ID
+                    usernameVariable: 'JenkinsUsingDocker',
+                    passwordVariable: 'CICDPROJECT')]) {
+                        echo "Jenkins username is: $JenkinsUsingDocker"
                         sh 'echo "Password is hidden for security"'
                 }
             }
@@ -59,3 +59,4 @@ pipeline {
         }
     }
 } // <-- closing brace for pipeline
+
