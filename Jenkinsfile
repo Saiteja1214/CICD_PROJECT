@@ -36,22 +36,19 @@ pipeline {
     }
 }
 
-
-        stage('Use Jenkins User Credential') {
-            steps {
-                echo "Using Jenkins username/password credential..."
-                withCredentials([usernamePassword(
-                    credentialsId: 'JenkinsUsingDocker', 
-                    usernameVariable: 'USER', 
-                    passwordVariable: 'PASS')]) {
-                        // Example usage of credentials
-                        echo "Jenkins username is: $USER"
-                        // Do not echo the password; placeholder shown for demo
-                        sh 'echo "Password is hidden for security"'
-                }
-            }
+stage('Use Jenkins User Credential') {
+    steps {
+        echo "Using Jenkins username/password credential..."
+        withCredentials([usernamePassword(
+            credentialsId: 'ISENKINS_USER',   // <-- use the correct ID here
+            usernameVariable: 'USER',
+            passwordVariable: 'PASS')]) {
+                echo "Jenkins username is: $USER"
+                sh 'echo "Password is hidden for security"'
         }
     }
+}
+
 
     post {
         success {
@@ -62,4 +59,5 @@ pipeline {
         }
     }
 }
+
 
