@@ -21,34 +21,34 @@ pipeline {
             }
         }
 
-      stage('Test Ansible') {
-    steps {
-        echo "Testing Ansible installation in virtual environment..."
-        sh '''
-            if [ -f /opt/ansible-venv/bin/activate ]; then
-                . /opt/ansible-venv/bin/activate
-                ansible --version
-            else
-                echo "Ansible virtual environment not found!"
-                exit 1
-            fi
-        '''
-    }
-}
-
-stage('Use Jenkins User Credential') {
-    steps {
-        echo "Using Jenkins username/password credential..."
-        withCredentials([usernamePassword(
-            credentialsId: 'ISENKINS_USER',   // <-- use the correct ID here
-            usernameVariable: 'USER',
-            passwordVariable: 'PASS')]) {
-                echo "Jenkins username is: $USER"
-                sh 'echo "Password is hidden for security"'
+        stage('Test Ansible') {
+            steps {
+                echo "Testing Ansible installation in virtual environment..."
+                sh '''
+                    if [ -f /opt/ansible-venv/bin/activate ]; then
+                        . /opt/ansible-venv/bin/activate
+                        ansible --version
+                    else
+                        echo "Ansible virtual environment not found!"
+                        exit 1
+                    fi
+                '''
+            }
         }
-    }
-}
 
+        stage('Use Jenkins User Credential') {
+            steps {
+                echo "Using Jenkins username/password credential..."
+                withCredentials([usernamePassword(
+                    credentialsId: 'ISENKINS_USER',   // correct ID
+                    usernameVariable: 'USER',
+                    passwordVariable: 'PASS')]) {
+                        echo "Jenkins username is: $USER"
+                        sh 'echo "Password is hidden for security"'
+                }
+            }
+        }
+    } // <-- closing brace for stages
 
     post {
         success {
@@ -58,6 +58,4 @@ stage('Use Jenkins User Credential') {
             echo "Pipeline failed! ❌ Check logs."
         }
     }
-}
-
-
+} // <-- closing brace for pipeline
