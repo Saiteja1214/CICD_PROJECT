@@ -2,12 +2,9 @@ pipeline {
     agent any
 
     environment {
-        // Jenkins API token
+        // Secret text for Jenkins API token (can be used if needed)
         JENKINS_API_TOKEN = credentials('JENKINS_API_TOKEN')
-        // Jenkins username + password
-        JENKINS_USER = credentials('JenkinsUsingDocker')
-        // Optional GitHub token if your repo is private
-        // GITHUB_TOKEN = credentials('JenkinsusingDock')
+        // You can add more secret text credentials here if needed
     }
 
     stages {
@@ -29,9 +26,28 @@ pipeline {
             steps {
                 echo "Testing Ansible installation in virtual environment..."
                 sh '''
-                    source /opt/ansible-venv/bin/activate
-                    ansible --version
+                    if [ -f /opt/ansible-venv/bin/activate ]; then
+                        source /opt/ansible-venv/bin/activate
+                        ansible --version
+                    else
+                        echo "Ansible virtual environment not found!"
+                        exit 1
+                    fi
                 '''
+            }
+        }
+
+        stage('Use Jenkins User Credential') {
+            steps {
+                echo "Testing Jenkins username/password credential..."
+                withCredentials([usernamePassword(
+                    credentialsId: 'JenkinsUsingDocker', 
+                    usernameVariable: 'USER', 
+                    passwordVariable: 'PASS')]) {
+                        // Example usage — avoid printing real password in production!
+                        echo "Jenkins username is: $USER"
+                        sh 'echo "Password is hidden for safety"'
+                }
             }
         }
     }
@@ -45,15 +61,3 @@ pipeline {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
