@@ -15,7 +15,7 @@ resource "docker_image" "nginx" {
 
 resource "docker_container" "nginx_test" {
   name  = "cicd-nginx"
-  image = docker_image.nginx.latest
+  image = docker_image.nginx.name   # ✅ FIXED
   ports {
     internal = 80
     external = 8082
@@ -24,7 +24,7 @@ resource "docker_container" "nginx_test" {
 
 output "container_ports" {
   value = [{
-    name = docker_container.nginx_test.name
+    name      = docker_container.nginx_test.name
     host_port = 8082
   }]
 }
