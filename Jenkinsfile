@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // Secret text credential for Jenkins API token (if needed)
+        // Secret text credential for Jenkins API token (optional use)
         JENKINS_API_TOKEN = credentials('JENKINS_API_TOKEN')
     }
 
@@ -21,22 +21,21 @@ pipeline {
             }
         }
 
-      stage('Test Ansible') {
-    steps {
-        echo "Testing Ansible installation in virtual environment..."
-        sh '''
-            #!/bin/bash
-            if [ -f /opt/ansible-venv/bin/activate ]; then
-                source /opt/ansible-venv/bin/activate
-                ansible --version
-            else
-                echo "Ansible virtual environment not found!"
-                exit 1
-            fi
-        '''
-    }
-}
-
+        stage('Test Ansible') {
+            steps {
+                echo "Testing Ansible installation in virtual environment..."
+                sh '''
+                    #!/bin/bash
+                    if [ -f /opt/ansible-venv/bin/activate ]; then
+                        source /opt/ansible-venv/bin/activate
+                        ansible --version
+                    else
+                        echo "Ansible virtual environment not found!"
+                        exit 1
+                    fi
+                '''
+            }
+        }
 
         stage('Use Jenkins User Credential') {
             steps {
@@ -47,7 +46,7 @@ pipeline {
                     passwordVariable: 'PASS')]) {
                         // Example usage of credentials
                         echo "Jenkins username is: $USER"
-                        // Do not echo password in real use; shown here safely
+                        // Do not echo the password; placeholder shown for demo
                         sh 'echo "Password is hidden for security"'
                 }
             }
@@ -63,4 +62,3 @@ pipeline {
         }
     }
 }
-
