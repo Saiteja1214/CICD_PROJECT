@@ -21,21 +21,22 @@ pipeline {
             }
         }
 
-        stage('Test Ansible') {
-            steps {
-                echo "Testing Ansible installation in virtual environment..."
-                sh '''
-                    #!/bin/bash
-                    if [ -f /opt/ansible-venv/bin/activate ]; then
-                        source /opt/ansible-venv/bin/activate
-                        ansible --version
-                    else
-                        echo "Ansible virtual environment not found!"
-                        exit 1
-                    fi
-                '''
-            }
-        }
+      stage('Test Ansible') {
+    steps {
+        echo "Testing Ansible installation in virtual environment..."
+        sh '''
+            #!/bin/bash
+            if [ -f /opt/ansible-venv/bin/activate ]; then
+                source /opt/ansible-venv/bin/activate
+                ansible --version
+            else
+                echo "Ansible virtual environment not found!"
+                exit 1
+            fi
+        '''
+    }
+}
+
 
         stage('Use Jenkins User Credential') {
             steps {
@@ -62,3 +63,4 @@ pipeline {
         }
     }
 }
+
