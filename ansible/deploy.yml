@@ -1,0 +1,6 @@
+- hosts: deployed
+  gather_facts: false
+  tasks:
+    - name: Test deployment
+      debug:
+        msg: "Hello from Ansible! App source: {{ app_src }}"
