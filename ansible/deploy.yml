@@ -7,7 +7,6 @@
   tasks:
 
     - name: Ensure destination host folder exists for this port
-      local_action:
-        module: file
-        path: "{{ playbook_dir }}/../deploy/app_{{ inventory_hostname_short | regex_replace('.*','1') }}" 
+      file:
+        path: "{{ playbook_dir }}/../deploy/app_{{ inventory_hostname_short }}"
         state: directory
