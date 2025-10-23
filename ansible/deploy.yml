@@ -1,6 +1,13 @@
-- hosts: deployed
+- name: Deploy app to docker-backed containers (local)
+  hosts: deployed
+  connection: local
   gather_facts: false
+  vars:
+    app_src: ""   # Passed via --extra-vars from Jenkins
   tasks:
-    - name: Test deployment
-      debug:
-        msg: "Hello from Ansible! App source: {{ app_src }}"
+
+    - name: Ensure destination host folder exists for this port
+      local_action:
+        module: file
+        path: "{{ playbook_dir }}/../deploy/app_{{ inventory_hostname_short | regex_replace('.*','1') }}" 
+        state: directory
